@@ -3,8 +3,8 @@ import cv2
 import time
 import os
 start_time=time.time()
-cap = cv2.VideoCapture(1)
-cap2 = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(2)
+cap2 = cv2.VideoCapture(1)
 '''def intial_image(cap,i):
      while time.time()<2:
         imwrite('first_image.jpg',cap)
@@ -17,13 +17,13 @@ def Video_filter(cap,i ):
     ret, frame = cap.read()
     if(i==2):# bottom camera
         ch = frame.shape
-        pts1 = np.float32([[78,119],[616,93],[131,197],[576,179]])
+        pts1 = np.float32([[109,199],[638,201],[148,270],[589,273]])
         pts2 = np.float32([[0,0],[484,0],[0,162],[484,162]])
         M = cv2.getPerspectiveTransform(pts1,pts2)
         frame = cv2.warpPerspective(frame,M,(484,162))
     elif(i==1):#t0p camera
         ch = frame.shape
-        pts1 = np.float32([[45,239],[564,240],[3,257],[615,262]])
+        pts1 = np.float32([[4,201],[634,224],[66,220],[501,233]])
         pts2 = np.float32([[0,0],[484,0],[0,15],[484,15]])
         M = cv2.getPerspectiveTransform(pts1,pts2)
         frame= cv2.warpPerspective(frame,M,(484,15))
@@ -154,7 +154,10 @@ def keystroke(a,b):
             elif a>360 and a <400:
                 os.system('xte "key Left"')
             elif a>400 and a <440:
-                os.system('xte "key Right"')        
+                os.system('xte "key Right"') 
+            elif a>440:
+                os.system('xte "key Down"')
+
         else:
             pass
 
@@ -231,7 +234,7 @@ while(True):
     edges_bot=Video_filter(cap,1)
     edges_top=Video_filter(cap2,2)
     if touched(edges_bot):
-        keystroke(first_white(edges_top,0,483,140,True),first_white(edges_top,0,483,140,False))
+        keystroke(touched_x(edges_bot)+30,first_white(edges_top,0,483,140,False))
     if cv2.waitKey(1) & 0xFF == ord('1'):
         break
     #end_time=time.time()
