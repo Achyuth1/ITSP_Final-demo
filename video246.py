@@ -5,12 +5,7 @@ import os
 start_time=time.time()
 cap = cv2.VideoCapture(2)
 cap2 = cv2.VideoCapture(1)
-'''def intial_image(cap,i):
-     while time.time()<2:
-        imwrite('first_image.jpg',cap)
 
-
-def back_subtract(cap):'''
 
 def Video_filter(cap,i ):
     # Capture frame-by-frame
@@ -28,8 +23,6 @@ def Video_filter(cap,i ):
         M = cv2.getPerspectiveTransform(pts1,pts2)
         frame= cv2.warpPerspective(frame,M,(484,15))
         cv2.imwrite('frame.jpg',frame)
-        #from PIL import Image
-        #frame = Image.open('frame.jpg').transpose(Image.FLIP_LEFT_RIGHT)
     
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     lower_blue = np.array([0, 30, 60])
@@ -40,7 +33,6 @@ def Video_filter(cap,i ):
     erosion = cv2.dilate(mask,kernel,iterations = 2)
     dilation = cv2.erode(erosion,kernel,iterations = 2)
     ret3,th3 = cv2.threshold(dilation,100,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-    #cv2.imshow("masked%d"%i,th3)
     edges = cv2.Canny(th3,150,255)
     cv2.imshow('edge%d'%i,edges)
     cv2.imshow('colour%d'%i,frame)
@@ -161,84 +153,14 @@ def keystroke(a,b):
         else:
             pass
 
-'''def keystroke(a,b):
-    #if a=299
-    if a==299:
-        pass
-    elif b==299:
-        pass
-    else:
-        #print a
-        #print b
-        #print " "
-        if b<45:
-            if a < 44:
-                print "q"
-            if a>43 and a <83:
-                print 'w'
-            if a>82 and a <123:
-                print 'e'
-            if a>123 and a <163:
-                print 'r'
-            if a>163 and a <203:
-                print 't'
-            if a>203 and a <243:
-                print 'y'
-            if a>243 and a <283:
-                print 'u'
-            if a>283 and a <323:
-                print 'i'
-            if a>323 and a <363:
-                print 'o'
-            if a>363 and a <403:
-                print 'p'
-        if b>44 and b<84:
-            if a<53:
-                print "a"
-            if a>54 and a <94:
-                print 's'
-            if a>94 and a <134:
-                print 'd'
-            if a>134 and a <174:
-                print 'f'
-            if a>174 and a <214:
-                print 'g'
-            if a>214 and a <254:
-                print 'h'
-            if a>254 and a <294:
-                print 'j'
-            if a>294 and a <334:
-                print 'k'
-            if a>334 and a <374:
-                print 'l'
-        elif b>84 and b<124:
-            if a>43 and a <83:
-                print 'z'
-            if a>83 and a <123:
-                print 'x'
-            if a>123 and a <163:
-                print 'c'
-            if a>163 and a <203:
-                print 'v'
-            if a>203 and a <243:
-                print 'b'
-            if a>243 and a <283:
-                print 'n'
-            if a>283 and a <323:
-                print 'm'
-        else:
-            pass'''
 
 while(True):
-    #touch = False
     edges_bot=Video_filter(cap,1)
     edges_top=Video_filter(cap2,2)
     if touched(edges_bot):
         keystroke(touched_x(edges_bot)+30,first_white(edges_top,0,483,140,False))
     if cv2.waitKey(1) & 0xFF == ord('1'):
         break
-    #end_time=time.time()
-    #print end_time-start_time
 # When everything done, release the Capture
 cap.release()
 cv2.destroyAllWindows()
