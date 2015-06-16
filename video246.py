@@ -12,16 +12,16 @@ def Video_filter(cap,i ):
     ret, frame = cap.read()
     if(i==2):# bottom camera
         ch = frame.shape
-        pts1 = np.float32([[108,247],[633,254],[148,320],[584,327]])
+        pts1 = np.float32([[112,275],[637,284],[149,345],[587,357]])
         pts2 = np.float32([[0,0],[484,0],[0,162],[484,162]])
         M = cv2.getPerspectiveTransform(pts1,pts2)
         frame = cv2.warpPerspective(frame,M,(484,162))
     elif(i==1):#t0p camera
         ch = frame.shape
-        pts1 = np.float32([[3,256],[619,265],[63,269],[493,280]])
-        pts2 = np.float32([[0,0],[484,0],[0,15],[484,15]])
+        pts1 = np.float32([[2,242],[610,260],[58,258],[490,274]])
+        pts2 = np.float32([[0,0],[484,0],[0,20],[484,20]])
         M = cv2.getPerspectiveTransform(pts1,pts2)
-        frame= cv2.warpPerspective(frame,M,(484,15))
+        frame= cv2.warpPerspective(frame,M,(484,20))
         cv2.imwrite('frame.jpg',frame)
     
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -158,7 +158,8 @@ while(True):
     edges_bot=Video_filter(cap,1)
     edges_top=Video_filter(cap2,2)
     if touched(edges_bot):
-        keystroke(touched_x(edges_bot)-10,first_white(edges_top,0,483,140,False))
+        x =  touched_x(edges_bot)
+        keystroke(x ,first_white(edges_top,x-10,x+10,140,False))
     if cv2.waitKey(1) & 0xFF == ord('1'):
         break
 # When everything done, release the Capture
